@@ -5,20 +5,49 @@ using System;
 public class Turnstile
 {
     // state
-    public static readonly int LOCKED = 0;
-    public static readonly int UNLOCKED = 1;
+    public const int LOCKED = 0;
+    public const int UNLOCKED = 1;
 
     // event
-    public static readonly int COIN = 0;
-    public static readonly int PASS = 1;
+    public const int COIN = 0;
+    public const int PASS = 1;
 
     public int state = LOCKED;  // private
+    TurnstileController controller;
 
     public Turnstile(TurnstileController action)
     {
+        controller = action;
     }
 
     public void Event(int e)
     {
+        switch (state)
+        {
+            case LOCKED:
+                switch (e)
+                {
+                    case COIN:
+                        state = UNLOCKED;
+                        controller.Unlock();
+                        break;
+                    case PASS:
+                        controller.Alarm();
+                        break;
+                }
+                break;
+            case UNLOCKED:
+                switch (e)
+                {
+                    case COIN:
+                        controller.Thankyou();
+                        break;
+                    case PASS:
+                        state = LOCKED;
+                        controller.Lock();
+                        break;
+                }
+                break;
+        }
     }
 }
