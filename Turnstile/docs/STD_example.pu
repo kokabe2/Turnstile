@@ -1,0 +1,20 @@
+﻿@startuml GUI controller
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+state WaitingForClick
+state Dragging
+state OutOfCanvas
+
+[*] --> WaitingForClick
+WaitingForClick -down-> Dragging : mouseDown/\nrecordFirstPoint,\nbeginAnimation
+Dragging -> Dragging : mouseMove/\nanimateRectangle
+Dragging -up-> WaitingForClick : mouseUp/\nstopAnimation,\ndrawRectangle
+Dragging -down-> OutOfCanvas : mouseLeave/\npauseAnimation
+OutOfCanvas -up-> Dragging : mouseEnter/\nresumeAnimation
+WaitingForClick -> [*] : abort
+Dragging -> [*] : abort/stopAnimation
+OutOfCanvas -> [*] : abort/stopAnimation
+@enduml
