@@ -1,0 +1,42 @@
+﻿@startuml strategy pattern
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+class Context
+interface Strategy {
+    +method()
+}
+class D1
+class D2
+
+Context -> Strategy
+Strategy <|.. D1
+Strategy <|.. D2
+@enduml
+
+@startuml state pattern
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+class Context {
+    #action1()
+    #action2()
+    #action3()
+}
+interface State {
+    +event1()
+    +event2()
+}
+class S1
+class S2
+
+Context -> State
+State <|.. S1
+State <|.. S2
+Context <.. S1
+Context <.. S2
+@enduml

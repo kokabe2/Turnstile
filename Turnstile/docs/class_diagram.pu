@@ -1,0 +1,29 @@
+﻿@startuml class diagram
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+class Turnstile {
+    +coin()
+    +pass()
+    #lock()
+    #unlock()
+    #alarm()
+    #thankyou()
+}
+
+interface TurnstileState {
+    +coin(Turnstile)
+    +pass(Turnstile)
+}
+
+class LockedTurnstileState
+class UnlockedTurnstileState
+
+Turnstile -> TurnstileState
+TurnstileState <|.. LockedTurnstileState
+TurnstileState <|.. UnlockedTurnstileState
+Turnstile <.. LockedTurnstileState
+Turnstile <.. UnlockedTurnstileState
+@enduml

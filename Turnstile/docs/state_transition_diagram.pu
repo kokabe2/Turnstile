@@ -1,0 +1,27 @@
+﻿@startuml STD R1
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+state Locked
+state Unlocked
+
+Locked -down-> Unlocked : coin/unlock
+Unlocked -up-> Locked : pass/lock
+@enduml
+
+@startuml STD R2
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+state Locked
+state Unlocked
+
+Locked -down-> Unlocked : coin/unlock
+Locked -> Locked : pass/alarm
+Unlocked -up-> Locked : pass/lock
+Unlocked -> Unlocked : coin/thankyou
+@enduml
