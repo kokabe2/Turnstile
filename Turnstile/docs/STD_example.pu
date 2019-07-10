@@ -18,3 +18,31 @@ WaitingForClick -> [*] : abort
 Dragging -> [*] : abort/stopAnimation
 OutOfCanvas -> [*] : abort/stopAnimation
 @enduml
+
+@startuml circular buffer
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+state Puttable {
+    state Empty
+    state Partial1 as "Partial"
+
+    Empty -> Empty : Get()/Underflow
+    Partial1 -up-> Empty : [count == 0]
+    Puttable -up-> Partial1 : Put(c)/\nbuf[last] = c;\nlast - (last+1)%N;\ncount++;
+}
+
+state Gettable {
+    state Full
+    state Partial2 as "Partial"
+
+    Full -> Full : Put(c)/Overflow
+    Partial2 -down-> Full : [count == N]
+    Gettable -down-> Partial2 : Get()/\ncount--;\nint f = first;\nfirst = (first+1)%N;\nreturn buf[f];
+}
+
+[*] --> Empty
+Partial1 -[hidden]right-> Partial2
+@enduml
